@@ -49,7 +49,7 @@ You must analyze the text for indicators of compromise (IOCs) and security red f
 Provide a structured JSON output matching the requested schema. Ensure your explanations are concise, professional, and directly useful in security training or analysis.`;
 
   try {
-    const model = 'gemini-2.5-flash';
+    const model = 'gemini-3.5-flash';
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     const payload = {
