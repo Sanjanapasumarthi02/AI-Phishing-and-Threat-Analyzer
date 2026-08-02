@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Phishing & Threat Analyzer</title>
+  <meta name="description" content="Use advanced AI threat intelligence to detect phishing red flags, suspicious URLs, and email scams. Get instant risk scores and actionable security recommendations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Cyber Background Grid -->
+  <div class="cyber-grid"></div>
+  <div class="glowing-orb-1"></div>
+  <div class="glowing-orb-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <path class="shield-check" d="M9 11l2 2 4-4" stroke-dasharray="100" stroke-dashoffset="0"></path>
+        </svg>
+        <h1>Aegis<span>AI</span></h1>
+      </div>
+      <div class="subtitle">Phishing & Threat Intelligence Analyzer</div>
+      
+      <!-- API Config Trigger -->
+      <button id="configBtn" class="icon-btn" title="Configure API Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    <!-- Input Section -->
+    <section class="card input-card">
+      <div class="card-header">
+        <span class="pulse-indicator green"></span>
+        <h2>Threat Scan Terminal</h2>
+      </div>
+      <p class="description">Paste a suspicious email body, headers, links, or URL below. AegisAI will inspect it for social engineering red flags, threat payloads, and domain spoofing.</p>
+      
+      <div class="textarea-wrapper">
+        <textarea id="threatInput" placeholder="Paste suspicious email text, headers, or URL here...&#10;&#10;e.g., 'Dear customer, your account was accessed from a new IP address. Please click this link immediately to verify your identity: http://secure-verify-update.com/login'"></textarea>
+        <div class="char-counter"><span id="charCount">0</span> characters</div>
+      </div>
+
+      <div class="button-group">
+        <button id="clearBtn" class="btn secondary-btn">Clear</button>
+        <button id="analyzeBtn" class="btn primary-btn">
+          <span class="btn-text">Run Security Scan</span>
+          <span class="btn-icon">➔</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Scan Progress Indicator (Hidden by default) -->
+    <section id="scanningProgress" class="card progress-card hidden">
+      <div class="loading-container">
+        <div class="loading-ring">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <div class="scan-details">
+          <h3 id="progressTitle">Initializing Aegis core...</h3>
+          <p id="progressSub" class="mono-font">SECURE CONNECTIVITY ESTABLISHED</p>
+        </div>
+      </div>
+      <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
+    </section>
+
+    <!-- Result Card (Hidden by default) -->
+    <section id="resultCard" class="card result-card hidden">
+      <!-- Dynamically gets classes: risk-low, risk-medium, risk-high -->
+      <div class="result-header">
+        <div class="badge-container">
+          <span class="threat-badge" id="riskBadge">HIGH RISK</span>
+        </div>
+        <div class="indicator-ring">
+          <div class="glow-layer"></div>
+          <span id="riskLabel">HIGH</span>
+        </div>
+      </div>
+
+      <div class="result-body">
+        <!-- Explanation -->
+        <div class="result-section">
+          <h3><span class="sec-icon">ℹ️</span> Analysis Summary</h3>
+          <p id="threatExplanation" class="explanation-text"></p>
+        </div>
+
+        <!-- Red Flags -->
+        <div class="result-section">
+          <h3><span class="sec-icon">🚩</span> Warning Indicators (Red Flags)</h3>
+          <ul id="redFlagsList" class="indicator-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="result-section">
+          <h3><span class="sec-icon">🛡️</span> Security Recommendations</h3>
+          <ul id="recommendationsList" class="recommendation-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="result-footer">
+        <button id="resetBtn" class="btn primary-btn">Scan Another Threat</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Settings Modal (Local API Key Fallback) -->
+  <div id="settingsModal" class="modal-overlay hidden">
+    <div class="modal card">
+      <div class="modal-header">
+        <h2>Local Configuration Settings</h2>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>AegisAI runs using Vercel serverless functions in production. For local development or running index.html directly, you can input your Gemini API Key below.</p>
+        <div class="alert alert-info">
+          <strong>How it works:</strong> The key is stored safely in your browser's <code>localStorage</code>. Requests are sent directly from your browser to Google's official Gemini endpoint. It is never sent to third-party servers.
+        </div>
+        <div class="form-group">
+          <label for="apiKeyInput">Gemini API Key</label>
+          <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
+          <small class="help-text">Don't have a key? <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Get a free key from Google AI Studio</a></small>
+        </div>
+        
+        <div class="form-group mode-toggle">
+          <label class="switch-label">
+            <input type="checkbox" id="directClientToggle">
+            <span class="slider"></span>
+            Use Direct Client Fallback (bypass serverless function)
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="clearKeyBtn" class="btn secondary-btn">Clear Key</button>
+        <button id="saveKeyBtn" class="btn primary-btn">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p class="mono-font">&copy; 2026 AEGIS CORE SECURE INTELLIGENCE. ALL RIGHTS RESERVED.</p>
+      <p class="api-mode-info">API Connection Mode: <span id="apiModeLabel" class="mode-tag badge-server">Serverless</span></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
